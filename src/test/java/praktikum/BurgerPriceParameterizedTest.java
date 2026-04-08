@@ -16,6 +16,10 @@ import static org.mockito.Mockito.when;
 @RunWith(Parameterized.class)
 public class BurgerPriceParameterizedTest {
 
+    private static final float BUN_PRICE = 100f;
+    private static final float INGREDIENT_PRICE_1 = 50f;
+    private static final float INGREDIENT_PRICE_2 = 30f;
+
     private Burger burger;
     private Bun bunMock;
     private final List<Ingredient> ingredients;
@@ -29,18 +33,18 @@ public class BurgerPriceParameterizedTest {
     @Parameterized.Parameters(name = "Ингредиенты: {0}, ожидаемая цена: {1}")
     public static Collection<Object[]> data() {
         Bun bunMock = mock(Bun.class);
-        when(bunMock.getPrice()).thenReturn(100f);
+        when(bunMock.getPrice()).thenReturn(BUN_PRICE);
 
-        Ingredient i1 = mock(Ingredient.class);
-        when(i1.getPrice()).thenReturn(50f);
-        Ingredient i2 = mock(Ingredient.class);
-        when(i2.getPrice()).thenReturn(30f);
+        Ingredient ingredient50 = mock(Ingredient.class);
+        when(ingredient50.getPrice()).thenReturn(INGREDIENT_PRICE_1);
+        Ingredient ingredient30 = mock(Ingredient.class);
+        when(ingredient30.getPrice()).thenReturn(INGREDIENT_PRICE_2);
 
         return Arrays.asList(
                 new Object[][]{
-                        {List.of(i1), 100f * 2 + 50f},
-                        {List.of(i1, i2), 100f * 2 + 50f + 30f},
-                        {List.of(), 100f * 2}
+                        {Arrays.asList(ingredient50), BUN_PRICE * 2 + INGREDIENT_PRICE_1},
+                        {Arrays.asList(ingredient50, ingredient30), BUN_PRICE * 2 + INGREDIENT_PRICE_1 + INGREDIENT_PRICE_2},
+                        {Arrays.asList(), BUN_PRICE * 2}
                 }
         );
     }
@@ -49,7 +53,7 @@ public class BurgerPriceParameterizedTest {
     public void setUp() {
         burger = new Burger();
         bunMock = mock(Bun.class);
-        when(bunMock.getPrice()).thenReturn(100f);
+        when(bunMock.getPrice()).thenReturn(BUN_PRICE);
         burger.setBuns(bunMock);
         for (Ingredient ing : ingredients) {
             burger.addIngredient(ing);

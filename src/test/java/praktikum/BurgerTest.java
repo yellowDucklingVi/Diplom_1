@@ -10,6 +10,10 @@ import static org.mockito.Mockito.when;
 
 public class BurgerTest {
 
+    private static final float BUN_PRICE = 100f;
+    private static final float INGREDIENT1_PRICE = 50f;
+    private static final float INGREDIENT2_PRICE = 30f;
+
     private Burger burger;
 
     @Mock
@@ -65,39 +69,40 @@ public class BurgerTest {
 
     @Test
     public void getPriceShouldReturnSumOfBunsAndIngredients() {
-        when(bunMock.getPrice()).thenReturn(100f);
-        when(ingredientMock1.getPrice()).thenReturn(50f);
-        when(ingredientMock2.getPrice()).thenReturn(30f);
+        when(bunMock.getPrice()).thenReturn(BUN_PRICE);
+        when(ingredientMock1.getPrice()).thenReturn(INGREDIENT1_PRICE);
+        when(ingredientMock2.getPrice()).thenReturn(INGREDIENT2_PRICE);
 
         burger.setBuns(bunMock);
         burger.addIngredient(ingredientMock1);
         burger.addIngredient(ingredientMock2);
 
-        float expectedPrice = 100f * 2 + 50f + 30f;
+        float expectedPrice = BUN_PRICE * 2 + INGREDIENT1_PRICE + INGREDIENT2_PRICE;
         assertEquals(expectedPrice, burger.getPrice(), 0.001f);
     }
 
     @Test
     public void getReceiptShouldReturnFormattedString() {
         when(bunMock.getName()).thenReturn("black bun");
-        when(bunMock.getPrice()).thenReturn(100f);
+        when(bunMock.getPrice()).thenReturn(BUN_PRICE);
         when(ingredientMock1.getType()).thenReturn(IngredientType.SAUCE);
         when(ingredientMock1.getName()).thenReturn("hot sauce");
-        when(ingredientMock1.getPrice()).thenReturn(50f);
+        when(ingredientMock1.getPrice()).thenReturn(INGREDIENT1_PRICE);
         when(ingredientMock2.getType()).thenReturn(IngredientType.FILLING);
         when(ingredientMock2.getName()).thenReturn("cutlet");
-        when(ingredientMock2.getPrice()).thenReturn(30f);
+        when(ingredientMock2.getPrice()).thenReturn(INGREDIENT2_PRICE);
 
         burger.setBuns(bunMock);
         burger.addIngredient(ingredientMock1);
         burger.addIngredient(ingredientMock2);
 
+        float totalPrice = BUN_PRICE * 2 + INGREDIENT1_PRICE + INGREDIENT2_PRICE;
         String expectedReceipt = "(==== black bun ====)\n" +
                 "= sauce hot sauce =\n" +
                 "= filling cutlet =\n" +
                 "(==== black bun ====)\n" +
                 "\n" +
-                "Price: 280,000000\n";
+                "Price: " + String.format("%f", totalPrice) + "\n";
 
         assertEquals(expectedReceipt, burger.getReceipt());
     }
