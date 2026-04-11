@@ -17,8 +17,8 @@ import static org.mockito.Mockito.when;
 public class BurgerPriceParameterizedTest {
 
     private static final float BUN_PRICE = 100f;
-    private static final float INGREDIENT_PRICE_1 = 50f;
-    private static final float INGREDIENT_PRICE_2 = 30f;
+    private static final float SAUCE_PRICE = 50f;
+    private static final float FILLING_PRICE = 30f;
 
     private Burger burger;
     private Bun bunMock;
@@ -35,15 +35,15 @@ public class BurgerPriceParameterizedTest {
         Bun bunMock = mock(Bun.class);
         when(bunMock.getPrice()).thenReturn(BUN_PRICE);
 
-        Ingredient ingredient50 = mock(Ingredient.class);
-        when(ingredient50.getPrice()).thenReturn(INGREDIENT_PRICE_1);
-        Ingredient ingredient30 = mock(Ingredient.class);
-        when(ingredient30.getPrice()).thenReturn(INGREDIENT_PRICE_2);
+        Ingredient sauceIngredient = mock(Ingredient.class);
+        when(sauceIngredient.getPrice()).thenReturn(SAUCE_PRICE);
+        Ingredient fillingIngredient = mock(Ingredient.class);
+        when(fillingIngredient.getPrice()).thenReturn(FILLING_PRICE);
 
         return Arrays.asList(
                 new Object[][]{
-                        {Arrays.asList(ingredient50), BUN_PRICE * 2 + INGREDIENT_PRICE_1},
-                        {Arrays.asList(ingredient50, ingredient30), BUN_PRICE * 2 + INGREDIENT_PRICE_1 + INGREDIENT_PRICE_2},
+                        {Arrays.asList(sauceIngredient), BUN_PRICE * 2 + SAUCE_PRICE},
+                        {Arrays.asList(sauceIngredient, fillingIngredient), BUN_PRICE * 2 + SAUCE_PRICE + FILLING_PRICE},
                         {Arrays.asList(), BUN_PRICE * 2}
                 }
         );
