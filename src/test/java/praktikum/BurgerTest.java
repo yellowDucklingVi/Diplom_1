@@ -20,10 +20,10 @@ public class BurgerTest {
     private Bun bunMock;
 
     @Mock
-    private Ingredient ingredientMock1;
+    private Ingredient sauceMock;
 
     @Mock
-    private Ingredient ingredientMock2;
+    private Ingredient fillingMock;
 
     @Before
     public void setUp() {
@@ -39,43 +39,43 @@ public class BurgerTest {
 
     @Test
     public void addIngredientShouldAddToList() {
-        burger.addIngredient(ingredientMock1);
-        assertEquals(ingredientMock1, burger.ingredients.get(0));
+        burger.addIngredient(sauceMock);
+        assertEquals(sauceMock, burger.ingredients.get(0));
     }
 
     @Test
     public void removeIngredientShouldRemoveByIndex() {
-        burger.addIngredient(ingredientMock1);
-        burger.addIngredient(ingredientMock2);
+        burger.addIngredient(sauceMock);
+        burger.addIngredient(fillingMock);
         burger.removeIngredient(0);
         assertEquals(1, burger.ingredients.size());
     }
 
     @Test
     public void moveIngredientShouldChangePosition() {
-        burger.addIngredient(ingredientMock1);
-        burger.addIngredient(ingredientMock2);
+        burger.addIngredient(sauceMock);
+        burger.addIngredient(fillingMock);
         burger.moveIngredient(0, 1);
-        assertEquals(ingredientMock2, burger.ingredients.get(0));
+        assertEquals(fillingMock, burger.ingredients.get(0));
     }
 
     @Test
     public void moveIngredientShouldPlaceElementAtNewIndex() {
-        burger.addIngredient(ingredientMock1);
-        burger.addIngredient(ingredientMock2);
+        burger.addIngredient(sauceMock);
+        burger.addIngredient(fillingMock);
         burger.moveIngredient(0, 1);
-        assertEquals(ingredientMock1, burger.ingredients.get(1));
+        assertEquals(sauceMock, burger.ingredients.get(1));
     }
 
     @Test
     public void getPriceShouldReturnSumOfBunsAndIngredients() {
         when(bunMock.getPrice()).thenReturn(BUN_PRICE);
-        when(ingredientMock1.getPrice()).thenReturn(SAUCE_PRICE);
-        when(ingredientMock2.getPrice()).thenReturn(FILLING_PRICE);
+        when(sauceMock.getPrice()).thenReturn(SAUCE_PRICE);
+        when(fillingMock.getPrice()).thenReturn(FILLING_PRICE);
 
         burger.setBuns(bunMock);
-        burger.addIngredient(ingredientMock1);
-        burger.addIngredient(ingredientMock2);
+        burger.addIngredient(sauceMock);
+        burger.addIngredient(fillingMock);
 
         float expectedPrice = BUN_PRICE * 2 + SAUCE_PRICE + FILLING_PRICE;
         assertEquals(expectedPrice, burger.getPrice(), 0.001f);
@@ -85,16 +85,16 @@ public class BurgerTest {
     public void getReceiptShouldReturnFormattedString() {
         when(bunMock.getName()).thenReturn("black bun");
         when(bunMock.getPrice()).thenReturn(BUN_PRICE);
-        when(ingredientMock1.getType()).thenReturn(IngredientType.SAUCE);
-        when(ingredientMock1.getName()).thenReturn("hot sauce");
-        when(ingredientMock1.getPrice()).thenReturn(SAUCE_PRICE);
-        when(ingredientMock2.getType()).thenReturn(IngredientType.FILLING);
-        when(ingredientMock2.getName()).thenReturn("cutlet");
-        when(ingredientMock2.getPrice()).thenReturn(FILLING_PRICE);
+        when(sauceMock.getType()).thenReturn(IngredientType.SAUCE);
+        when(sauceMock.getName()).thenReturn("hot sauce");
+        when(sauceMock.getPrice()).thenReturn(SAUCE_PRICE);
+        when(fillingMock.getType()).thenReturn(IngredientType.FILLING);
+        when(fillingMock.getName()).thenReturn("cutlet");
+        when(fillingMock.getPrice()).thenReturn(FILLING_PRICE);
 
         burger.setBuns(bunMock);
-        burger.addIngredient(ingredientMock1);
-        burger.addIngredient(ingredientMock2);
+        burger.addIngredient(sauceMock);
+        burger.addIngredient(fillingMock);
 
         float totalPrice = BUN_PRICE * 2 + SAUCE_PRICE + FILLING_PRICE;
         String expectedReceipt = "(==== black bun ====)\n" +
